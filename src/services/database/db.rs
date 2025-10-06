@@ -1,0 +1,3 @@
+async fn init() {
+    todo!()
+}

@@ -1,0 +1,11 @@
+[package]
+name = "EclairBot"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+poise = "0.6.1"
+serde = "1.0.228"
+serenity = "0.12.4"
+tokio = { version = "1.47.1", features = ["full"] }
+toml = "0.9.7"

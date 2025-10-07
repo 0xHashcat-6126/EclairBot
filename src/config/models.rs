@@ -9,4 +9,5 @@ pub struct Config {
 pub struct Bot {
     pub token: String,
     pub prefix: String,
+    pub database_name: String,
 }

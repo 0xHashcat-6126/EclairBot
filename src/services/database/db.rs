@@ -1,10 +1,10 @@
 use sqlx::{Connection, SqliteConnection};
 use std::error::Error;
+use std::fs::File;
 
-const DATABASE_URL: &str = "sqlite://bot.db";
-
-async fn init() -> Result<(), Box<dyn Error>> {
-    let mut conn = SqliteConnection::connect(DATABASE_URL).await?;
+pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
+    File::create(db_name)?;
+    let mut conn = SqliteConnection::connect(db_name).await?;
 
     let tables = [
         "

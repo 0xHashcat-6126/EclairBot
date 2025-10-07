@@ -11,6 +11,7 @@ pub async fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let commands = vec![
         commands::ban::ban(),
         commands::kick::kick(),
+        commands::help::help(),
         commands::ping::ping(),
         commands::ruler::ruler(),
         commands::unban::unban(),

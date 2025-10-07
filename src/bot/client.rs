@@ -8,7 +8,13 @@ use crate::config::models::Config;
 pub struct Data {}
 
 pub async fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let commands = vec![commands::ping::ping(), commands::ruler::ruler()];
+    let commands = vec![
+        commands::ban::ban(),
+        commands::kick::kick(),
+        commands::ping::ping(),
+        commands::ruler::ruler(),
+        commands::unban::unban(),
+    ];
 
     let framework = Framework::builder()
         .options(FrameworkOptions {

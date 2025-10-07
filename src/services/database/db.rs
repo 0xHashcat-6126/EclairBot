@@ -24,6 +24,36 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )",
         "
+        CREATE TABLE IF NOT EXISTS bans (
+            id TEXT PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            moderator_id TEXT NOT NULL,
+            reason TEXT NOT NULL,
+            timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+        )",
+        "
+        CREATE TABLE IF NOT EXISTS unbans (
+            id TEXT PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            moderator_id TEXT NOT NULL,
+            reason TEXT NOT NULL,
+            timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+        )",
+        "
+        CREATE TABLE IF NOT EXISTS kicks (
+            id TEXT PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            moderator_id TEXT NOT NULL,
+            reason TEXT NOT NULL,
+            timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+        )",
+        "
         CREATE TABLE IF NOT EXISTS warns (
             id TEXT PRIMARY KEY,
             user_id TEXT NOT NULL,

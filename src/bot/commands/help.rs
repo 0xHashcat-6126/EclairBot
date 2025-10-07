@@ -1,5 +1,5 @@
 use crate::bot::{Context, Error};
-use poise::{command, CreateReply};
+use poise::{CreateReply, command};
 use serenity::all::CreateEmbed;
 
 #[command(
@@ -16,17 +16,17 @@ pub async fn help(
             "ping" => (
                 "Ping Command",
                 "Checks if the bot is alive.\n\nIf the bot is alive, it will respond with a 'Pong!'.",
-                "`ping`"
+                "`ping`",
             ),
             "ruler" => (
                 "Ruler Command",
-                "Measures length of your penis.\n\nDraws a random number from 0 to 32 and display size of your penis in 'B<LENGTH>D' format, with size at the bottom in '<LENGTH>cm' format.\n\nexample:\n B========D\n8cm",
-                "`ruler`"
+                "Measures the length of your penis.\n\nDraws a random number from 0 to 32 and display size of your penis in 'B<LENGTH>D' format, with size at the bottom in '<LENGTH>cm' format.\n\nexample:\n B========D\n8cm",
+                "`ruler`",
             ),
             _ => (
                 "Unknown Command",
                 "Could not find help for this command.",
-                "Try `help <command>` with a valid command name."
+                "Try `help <command>` with a valid command name.",
             ),
         };
 
@@ -38,7 +38,12 @@ pub async fn help(
         CreateEmbed::new()
             .title("Available Commands")
             .description("List of all available commands:")
+            .field("ban", "Bans a user from the server.", false)
+            .field("help", "Shows this message, and command usage.", false)
+            .field("kick", "Kicks a user from the server.", false)
             .field("ping", "Checks if the bot is alive.", false)
+            .field("ruler", "Measures the length of your penis.", false)
+            .field("unban", "Unbans a user from the server.", false)
     };
 
     ctx.send(CreateReply::default().embed(embed)).await?;

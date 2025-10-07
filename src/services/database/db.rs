@@ -10,14 +10,14 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
     let tables = [
         "
         CREATE TABLE IF NOT EXISTS users (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             exp INTEGER NOT NULL DEFAULT 0,
             cash INTEGER NOT NULL DEFAULT 0,
             bank INTEGER NOT NULL DEFAULT 0
         )",
         "
         CREATE TABLE IF NOT EXISTS economy (
-            user_id TEXT PRIMARY KEY,
+            user_id INTEGER PRIMARY KEY,
             last_crime INTEGER NOT NULL DEFAULT 0,
             last_rob INTEGER NOT NULL DEFAULT 0,
             last_slut INTEGER NOT NULL DEFAULT 0,
@@ -26,7 +26,7 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
         )",
         "
         CREATE TABLE IF NOT EXISTS bans (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id TEXT NOT NULL,
             moderator_id TEXT NOT NULL,
             reason TEXT NOT NULL,
@@ -36,7 +36,7 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
         )",
         "
         CREATE TABLE IF NOT EXISTS unbans (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id TEXT NOT NULL,
             moderator_id TEXT NOT NULL,
             reason TEXT NOT NULL,
@@ -46,7 +46,7 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
         )",
         "
         CREATE TABLE IF NOT EXISTS kicks (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id TEXT NOT NULL,
             moderator_id TEXT NOT NULL,
             reason TEXT NOT NULL,
@@ -56,7 +56,7 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
         )",
         "
         CREATE TABLE IF NOT EXISTS warns (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id TEXT NOT NULL,
             moderator_id TEXT NOT NULL,
             reason TEXT NOT NULL,

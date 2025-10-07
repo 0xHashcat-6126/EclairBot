@@ -2,13 +2,23 @@ mod bot;
 mod config;
 mod services;
 
+use std::path::Path;
 use bot::client;
 use config::loader::load_config;
+
+use crate::services::database::db;
 
 #[tokio::main]
 async fn main() {
     let config = load_config("Config.toml").unwrap();
-    // services::database::db::init(&config.bot.database_name).await.unwrap();
 
-    client::run(config).await.unwrap();
+    let path = Path::new(&config.bot.database_name);
+
+    if !path.exists() {
+        db::init(&config.bot.database_name).await.unwrap();
+    }
+
+    let pool = db::create_pool(&config.bot.database_name).await.unwrap();
+
+    client::run(config, pool).await.unwrap();
 }

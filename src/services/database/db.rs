@@ -1,6 +1,7 @@
-use sqlx::{Connection, SqliteConnection};
+use sqlx::{Connection, Pool, Sqlite, SqliteConnection};
 use std::error::Error;
 use std::fs::File;
+use sqlx::sqlite::SqlitePoolOptions;
 
 pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
     File::create(db_name)?;
@@ -72,4 +73,13 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
     tx.commit().await?;
 
     Ok(())
+}
+
+pub async fn create_pool(db_name: &str) -> Result<Pool<Sqlite>, Box<dyn Error>> {
+    let pool = SqlitePoolOptions::new()
+        .max_connections(8)
+        .connect(format!("sqlite://{db_name}").as_str())
+        .await?;
+
+    Ok(pool)
 }

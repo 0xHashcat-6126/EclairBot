@@ -5,64 +5,66 @@ use std::fs::File;
 
 pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
     File::create(db_name)?;
+
     let mut conn = SqliteConnection::connect(db_name).await?;
 
     let tables = [
         "
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS members (
             id INTEGER PRIMARY KEY,
             exp INTEGER NOT NULL DEFAULT 0,
+            reputation INTEGER NOT NULL DEFAULT 0,
             cash INTEGER NOT NULL DEFAULT 0,
             bank INTEGER NOT NULL DEFAULT 0
         )",
         "
         CREATE TABLE IF NOT EXISTS economy (
-            user_id INTEGER PRIMARY KEY,
+            member_id INTEGER PRIMARY KEY,
             last_crime INTEGER NOT NULL DEFAULT 0,
             last_rob INTEGER NOT NULL DEFAULT 0,
             last_slut INTEGER NOT NULL DEFAULT 0,
             last_work INTEGER NOT NULL DEFAULT 0,
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE
         )",
         "
         CREATE TABLE IF NOT EXISTS bans (
             id INTEGER PRIMARY KEY,
-            user_id TEXT NOT NULL,
-            moderator_id TEXT NOT NULL,
+            member_id INTEGER NOT NULL,
+            moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
         )",
         "
         CREATE TABLE IF NOT EXISTS unbans (
             id INTEGER PRIMARY KEY,
-            user_id TEXT NOT NULL,
-            moderator_id TEXT NOT NULL,
+            member_id INTEGER NOT NULL,
+            moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
         )",
         "
         CREATE TABLE IF NOT EXISTS kicks (
             id INTEGER PRIMARY KEY,
-            user_id TEXT NOT NULL,
-            moderator_id TEXT NOT NULL,
+            member_id INTEGER NOT NULL,
+            moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
         )",
         "
         CREATE TABLE IF NOT EXISTS warns (
             id INTEGER PRIMARY KEY,
-            user_id TEXT NOT NULL,
-            moderator_id TEXT NOT NULL,
+            member_id INTEGER NOT NULL,
+            moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
+            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
         )",
     ];
 

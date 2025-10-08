@@ -26,11 +26,19 @@ pub async fn run(config: Config, pool: Pool<Sqlite>) -> Result<(), Box<dyn Error
                 prefix: Some(config.bot.prefix),
                 ..Default::default()
             },
-            event_handler: |ctx, event, _framework, _data| {
+            event_handler: |ctx, event, _framework, data| {
                 Box::pin(async move {
                     match event {
                         FullEvent::Message { new_message } => {
-                            events::message_create::message_create(ctx, &new_message).await?;
+                            events::message::message(ctx, &data, &new_message).await?;
+                        }
+                        FullEvent::GuildMemberAddition { new_member } => {
+                            events::guild_member_addition::guild_member_addition(
+                                ctx,
+                                &data,
+                                &new_member,
+                            )
+                            .await?;
                         }
                         _ => (),
                     }

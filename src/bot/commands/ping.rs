@@ -19,7 +19,6 @@ pub async fn ping(ctx: Context<'_>) -> Result<(), Error> {
                 .title("🏓 Pong!")
                 .description(format!("Latency: {} ms", latency))
                 .color(0x00FF00)
-                .timestamp(chrono::Utc::now()),
         ),
     )
     .await?;

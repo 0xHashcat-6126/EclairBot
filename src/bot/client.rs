@@ -1,9 +1,9 @@
-use poise::{Framework, FrameworkOptions, PrefixFrameworkOptions, builtins};
-use serenity::all::{FullEvent, GatewayIntents};
-use std::error::Error;
-use sqlx::{Pool, Sqlite};
 use crate::bot::{commands, events};
 use crate::config::models::Config;
+use poise::{Framework, FrameworkOptions, PrefixFrameworkOptions, builtins};
+use serenity::all::{FullEvent, GatewayIntents};
+use sqlx::{Pool, Sqlite};
+use std::error::Error;
 
 pub struct Data {
     pub pool: Pool<Sqlite>,
@@ -42,7 +42,7 @@ pub async fn run(config: Config, pool: Pool<Sqlite>) -> Result<(), Box<dyn Error
         .setup(|ctx, _ready, framework| {
             Box::pin(async move {
                 builtins::register_globally(ctx, &framework.options().commands).await?;
-                Ok(Data {pool})
+                Ok(Data { pool })
             })
         })
         .build();

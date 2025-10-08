@@ -2,9 +2,9 @@ mod bot;
 mod config;
 mod services;
 
-use std::path::Path;
 use bot::client;
 use config::loader::load_config;
+use std::path::Path;
 
 use crate::services::database::db;
 

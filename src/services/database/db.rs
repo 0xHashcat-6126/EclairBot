@@ -1,7 +1,7 @@
+use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::{Connection, Pool, Sqlite, SqliteConnection};
 use std::error::Error;
 use std::fs::File;
-use sqlx::sqlite::SqlitePoolOptions;
 
 pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
     File::create(db_name)?;

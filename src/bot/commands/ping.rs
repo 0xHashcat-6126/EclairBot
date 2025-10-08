@@ -1,6 +1,6 @@
 use crate::bot::{Context, Error};
-use poise::command;
-use poise::serenity_prelude::CreateEmbed;
+use poise::{CreateReply, command};
+use serenity::all::CreateEmbed;
 
 #[command(
     slash_command,
@@ -12,7 +12,7 @@ pub async fn ping(ctx: Context<'_>) -> Result<(), Error> {
     let ms = latency.as_millis();
 
     ctx.send(
-        poise::CreateReply::default().embed(
+        CreateReply::default().embed(
             CreateEmbed::new()
                 .title("🏓 Pong!")
                 .description(format!("Latency: {} ms", ms))

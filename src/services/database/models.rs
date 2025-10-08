@@ -1,5 +1,5 @@
-use sqlx::{FromRow, SqlitePool};
 use crate::bot::Error;
+use sqlx::{FromRow, SqlitePool};
 
 #[derive(FromRow)]
 pub struct Member {

@@ -1,7 +1,7 @@
-use serenity::all::{Context, Member};
+use crate::bot::Error;
 use crate::bot::client::Data;
 use crate::services::database::models;
-use crate::bot::Error;
+use serenity::all::{Context, Member};
 
 pub async fn member_init(ctx: &Context, data: &Data, member: &Member) -> Result<(), Error> {
     let member_id = member.user.id.get() as i64;

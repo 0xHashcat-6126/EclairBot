@@ -1,17 +1,17 @@
 use sqlx::{FromRow, SqlitePool};
-use std::error::Error;
+use crate::bot::Error;
 
 #[derive(FromRow)]
 pub struct Member {
-    id: i32,
-    exp: i32,
+    id: i64,
+    exp: u32,
     reputation: i32,
     cash: i32,
     bank: i32,
 }
 
 impl Member {
-    pub fn new(id: i32) -> Self {
+    pub fn new(id: i64) -> Self {
         Self {
             id,
             exp: 0,
@@ -21,7 +21,7 @@ impl Member {
         }
     }
 
-    pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Box<dyn Error>> {
+    pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
             "INSERT INTO members (id, exp, reputation, cash, bank)
             VALUES (?, ?, ?, ?, ?)
@@ -41,7 +41,7 @@ impl Member {
 
 #[derive(FromRow)]
 pub struct Economy {
-    member_id: i32,
+    member_id: i64,
     last_crime: i32,
     last_rob: i32,
     last_slut: i32,
@@ -49,7 +49,7 @@ pub struct Economy {
 }
 
 impl Economy {
-    pub fn new(member_id: i32) -> Self {
+    pub fn new(member_id: i64) -> Self {
         Self {
             member_id,
             last_crime: 0,
@@ -59,7 +59,7 @@ impl Economy {
         }
     }
 
-    pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Box<dyn Error>> {
+    pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
             "INSERT INTO economy (member_id, last_crime, last_rob, last_slut, last_work)
             VALUES (?, ?, ?, ?, ?)

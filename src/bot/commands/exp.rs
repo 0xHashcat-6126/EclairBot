@@ -6,17 +6,14 @@ use serenity::all::{CreateEmbed, Member};
 #[command(
     slash_command,
     prefix_command,
-    description_localized("en-US", "Check member exp")
+    description_localized("en-US", "Check member exp"),
+    guild_only = true,
 )]
 pub async fn exp(
     ctx: Context<'_>,
     #[description = "Member to check"] member: Option<Member>,
 ) -> Result<(), Error> {
-    let member_id = match member {
-        Some(m) => m.user.id,
-        None => ctx.author().id,
-    };
-
+    let member_id = member.map_or(ctx.author().id, |m| m.user.id);
     let member_data = models::member::get_member(&ctx.data().pool, member_id.into()).await?;
 
     let mut level = 0;

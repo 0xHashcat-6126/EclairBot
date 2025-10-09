@@ -6,7 +6,7 @@ use crate::bot::{Context, Error};
 #[command(
     slash_command,
     prefix_command,
-    description_localized("en-US", "Measure your penis length")
+    description_localized("en-US", "Measure length of your penis")
 )]
 pub async fn ruler(ctx: Context<'_>) -> Result<(), Error> {
     let length = random_range(0..=32);

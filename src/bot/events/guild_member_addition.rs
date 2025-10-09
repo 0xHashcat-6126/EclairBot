@@ -8,7 +8,7 @@ pub async fn guild_member_addition(
     data: &Data,
     member: &Member,
 ) -> Result<(), Error> {
-    member_init(ctx, data, member).await?;
+    member_init(data, member).await?;
 
     Ok(())
 }

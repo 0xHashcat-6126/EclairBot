@@ -1,4 +1,5 @@
 pub mod ban;
+pub mod exp;
 pub mod help;
 pub mod kick;
 pub mod ping;

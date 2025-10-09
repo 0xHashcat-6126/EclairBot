@@ -18,7 +18,7 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             bank INTEGER NOT NULL DEFAULT 0
         )",
         "
-        CREATE TABLE IF NOT EXISTS economy (
+        CREATE TABLE IF NOT EXISTS timeouts (
             member_id INTEGER PRIMARY KEY,
             last_crime INTEGER NOT NULL DEFAULT 0,
             last_rob INTEGER NOT NULL DEFAULT 0,

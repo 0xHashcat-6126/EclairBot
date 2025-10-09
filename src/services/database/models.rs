@@ -64,7 +64,7 @@ impl Member {
 }
 
 #[derive(FromRow)]
-pub struct Economy {
+pub struct Timeouts {
     member_id: i64,
     last_crime: i32,
     last_rob: i32,
@@ -72,7 +72,7 @@ pub struct Economy {
     last_work: i32,
 }
 
-impl Economy {
+impl Timeouts {
     pub fn new(member_id: i64) -> Self {
         Self {
             member_id,
@@ -85,9 +85,9 @@ impl Economy {
 
     pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
-            "INSERT INTO economy (member_id, last_crime, last_rob, last_slut, last_work)
+            "INSERT INTO timeouts (member_id, last_crime, last_rob, last_slut, last_work)
             VALUES (?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO NOTHING",
+            ON CONFLICT(member_id) DO NOTHING",
         )
         .bind(self.member_id)
         .bind(self.last_crime)

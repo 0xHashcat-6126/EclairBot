@@ -30,7 +30,7 @@ pub async fn run(config: Config, pool: Pool<Sqlite>) -> Result<(), Box<dyn Error
                 Box::pin(async move {
                     match event {
                         FullEvent::Message { new_message } => {
-                            events::message::message(ctx, &data, &new_message).await?;
+                            events::message_create::message_create(ctx, &data, &new_message).await?;
                         }
                         FullEvent::GuildMemberAddition { new_member } => {
                             events::guild_member_addition::guild_member_addition(

@@ -37,6 +37,30 @@ impl Member {
 
         Ok(())
     }
+
+    pub async fn get_member(pool: &SqlitePool, id: i64) -> Result<Self, Error> {
+        let member = sqlx::query_as::<_, Member>("SELECT * FROM members WHERE id = ?")
+            .bind(id)
+            .fetch_optional(pool)
+            .await?;
+
+        match member {
+            Some(m) => Ok(m),
+            None => Ok(Self::new(id)),
+        }
+    }
+
+    pub async fn add_exp(&mut self, pool: &SqlitePool, exp: u32) -> Result<(), Error> {
+        self.exp += exp;
+
+        sqlx::query("UPDATE members SET exp = ? WHERE id = ?")
+            .bind(self.exp)
+            .bind(self.id)
+            .execute(pool)
+            .await?;
+
+        Ok(())
+    }
 }
 
 #[derive(FromRow)]

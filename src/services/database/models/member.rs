@@ -4,10 +4,10 @@ use sqlx::{FromRow, SqlitePool};
 #[derive(FromRow)]
 pub struct MemberData {
     pub id: i64,
-    pub exp: u32,
-    pub reputation: i32,
-    pub cash: i32,
-    pub bank: i32,
+    pub exp: i64,
+    pub reputation: i64,
+    pub cash: i64,
+    pub bank: i64,
 }
 
 pub fn new(id: i64) -> MemberData {
@@ -32,11 +32,10 @@ pub async fn get_member(pool: &SqlitePool, id: i64) -> Result<MemberData, Error>
 impl MemberData {
     pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
-            "INSERT INTO members (id, exp, reputation, cash, bank)
-            VALUES (?, ?, ?, ?, ?)
+            "INSERT INTO members (exp, reputation, cash, bank)
+            VALUES (?, ?, ?, ?)
             ON CONFLICT(id) DO NOTHING",
         )
-        .bind(self.id)
         .bind(self.exp)
         .bind(self.reputation)
         .bind(self.cash)
@@ -47,7 +46,7 @@ impl MemberData {
         Ok(())
     }
 
-    pub async fn add_exp(&mut self, pool: &SqlitePool, exp: u32) -> Result<(), Error> {
+    pub async fn add_exp(&mut self, pool: &SqlitePool, exp: i64) -> Result<(), Error> {
         self.exp += exp;
 
         sqlx::query("UPDATE members SET exp = ? WHERE id = ?")

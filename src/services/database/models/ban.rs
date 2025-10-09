@@ -2,9 +2,9 @@ use sqlx::FromRow;
 
 #[derive(FromRow)]
 pub struct BanData {
-    pub id: i32,
-    pub member_id: i32,
-    pub moderator_id: i32,
+    pub id: i64,
+    pub member_id: i64,
+    pub moderator_id: i64,
     pub reason: String,
-    pub timestamp: i32,
+    pub timestamp: i64,
 }

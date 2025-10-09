@@ -1,6 +1,7 @@
 mod bot;
 mod config;
 mod services;
+mod utils;
 
 use bot::client;
 use config::loader::load_config;

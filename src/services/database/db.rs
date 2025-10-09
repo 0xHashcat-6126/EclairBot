@@ -33,8 +33,8 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id),
+            FOREIGN KEY(moderator_id) REFERENCES members(id)
         )",
         "
         CREATE TABLE IF NOT EXISTS unbans (
@@ -43,8 +43,8 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id),
+            FOREIGN KEY(moderator_id) REFERENCES members(id)
         )",
         "
         CREATE TABLE IF NOT EXISTS kicks (
@@ -53,8 +53,8 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id),
+            FOREIGN KEY(moderator_id) REFERENCES members(id)
         )",
         "
         CREATE TABLE IF NOT EXISTS warns (
@@ -63,8 +63,8 @@ pub async fn init(db_name: &str) -> Result<(), Box<dyn Error>> {
             moderator_id INTEGER NOT NULL,
             reason TEXT NOT NULL,
             timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-            FOREIGN KEY(member_id) REFERENCES members(id) ON DELETE CASCADE,
-            FOREIGN KEY(moderator_id) REFERENCES members(id) ON DELETE CASCADE
+            FOREIGN KEY(member_id) REFERENCES members(id),
+            FOREIGN KEY(moderator_id) REFERENCES members(id)
         )",
     ];
 

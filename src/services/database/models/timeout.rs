@@ -3,11 +3,11 @@ use sqlx::{FromRow, SqlitePool};
 
 #[derive(FromRow)]
 pub struct Timeouts {
-    member_id: i64,
-    last_crime: i32,
-    last_rob: i32,
-    last_slut: i32,
-    last_work: i32,
+    pub member_id: i64,
+    pub last_crime: i32,
+    pub last_rob: i32,
+    pub last_slut: i32,
+    pub last_work: i32,
 }
 
 pub fn new(member_id: i64) -> Timeouts {

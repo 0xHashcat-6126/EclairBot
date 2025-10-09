@@ -3,11 +3,11 @@ use sqlx::{FromRow, SqlitePool};
 
 #[derive(FromRow)]
 pub struct Member {
-    id: i64,
-    exp: u32,
-    reputation: i32,
-    cash: i32,
-    bank: i32,
+    pub id: i64,
+    pub exp: u32,
+    pub reputation: i32,
+    pub cash: i32,
+    pub bank: i32,
 }
 
 pub fn new(id: i64) -> Member {

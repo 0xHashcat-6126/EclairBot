@@ -2,7 +2,7 @@ use crate::bot::Error;
 use sqlx::{FromRow, SqlitePool};
 
 #[derive(FromRow)]
-pub struct Timeouts {
+pub struct TimeoutsData {
     pub member_id: i64,
     pub last_crime: i32,
     pub last_rob: i32,
@@ -10,8 +10,8 @@ pub struct Timeouts {
     pub last_work: i32,
 }
 
-pub fn new(member_id: i64) -> Timeouts {
-    Timeouts {
+pub fn new(member_id: i64) -> TimeoutsData {
+    TimeoutsData {
         member_id,
         last_crime: 0,
         last_rob: 0,
@@ -20,7 +20,7 @@ pub fn new(member_id: i64) -> Timeouts {
     }
 }
 
-impl Timeouts {
+impl TimeoutsData {
     pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
             "INSERT INTO timeouts (member_id, last_crime, last_rob, last_slut, last_work)

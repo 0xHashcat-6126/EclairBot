@@ -1,7 +1,7 @@
 use sqlx::FromRow;
 
 #[derive(FromRow)]
-pub struct Warn {
+pub struct WarnData {
     pub id: i32,
     pub member_id: i32,
     pub moderator_id: i32,

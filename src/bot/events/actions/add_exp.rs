@@ -6,8 +6,8 @@ use serenity::all::Message;
 pub async fn add_exp(data: &Data, message: &Message) -> Result<(), Error> {
     let member_id = message.author.id.get() as i64;
 
-    let mut member = models::member::get_member(&data.pool, member_id).await?;
-    member.add_exp(&data.pool, 1).await?;
+    let mut member_data = models::member::get_member(&data.pool, member_id).await?;
+    member_data.add_exp(&data.pool, 1).await?;
 
     Ok(())
 }

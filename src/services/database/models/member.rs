@@ -2,7 +2,7 @@ use crate::bot::Error;
 use sqlx::{FromRow, SqlitePool};
 
 #[derive(FromRow)]
-pub struct Member {
+pub struct MemberData {
     pub id: i64,
     pub exp: u32,
     pub reputation: i32,
@@ -10,8 +10,8 @@ pub struct Member {
     pub bank: i32,
 }
 
-pub fn new(id: i64) -> Member {
-    Member {
+pub fn new(id: i64) -> MemberData {
+    MemberData {
         id,
         exp: 0,
         reputation: 0,
@@ -20,8 +20,8 @@ pub fn new(id: i64) -> Member {
     }
 }
 
-pub async fn get_member(pool: &SqlitePool, id: i64) -> Result<Member, Error> {
-    let member = sqlx::query_as::<_, Member>("SELECT * FROM members WHERE id = ?")
+pub async fn get_member(pool: &SqlitePool, id: i64) -> Result<MemberData, Error> {
+    let member = sqlx::query_as::<_, MemberData>("SELECT * FROM members WHERE id = ?")
         .bind(id)
         .fetch_one(pool)
         .await?;
@@ -29,7 +29,7 @@ pub async fn get_member(pool: &SqlitePool, id: i64) -> Result<Member, Error> {
     Ok(member)
 }
 
-impl Member {
+impl MemberData {
     pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
         sqlx::query(
             "INSERT INTO members (id, exp, reputation, cash, bank)

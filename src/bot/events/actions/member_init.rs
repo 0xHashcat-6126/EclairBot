@@ -6,11 +6,11 @@ use serenity::all::Member;
 pub async fn member_init(data: &Data, member: &Member) -> Result<(), Error> {
     let member_id = member.user.id.get() as i64;
 
-    let member = models::Member::new(member_id);
-    let economy = models::Timeouts::new(member_id);
+    let member = models::member::new(member_id);
+    let timeouts = models::timeout::new(member_id);
 
     member.insert(&data.pool).await?;
-    economy.insert(&data.pool).await?;
+    timeouts.insert(&data.pool).await?;
 
     Ok(())
 }

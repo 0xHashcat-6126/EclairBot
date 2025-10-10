@@ -7,36 +7,33 @@ use serenity::all::{CreateEmbed, Member};
 #[command(
     slash_command,
     prefix_command,
-    description_localized("en-US", "Kick a member from the server"),
-    guild_only = true,
-    required_permissions = "KICK_MEMBERS"
+    description_localized("en-US", "Warn a member"),
+    guild_only = true
 )]
-pub async fn kick(
+pub async fn warn(
     ctx: Context<'_>,
-    #[description = "User to kick"] member: Member,
-    #[description = "Reason for the kick"] reason: String,
+    #[description = "Member to warn"] member: Member,
+    #[description = "Reason for the warn"] reason: String,
 ) -> Result<(), Error> {
     let moderator_roles = ctx
         .author_member()
         .await
         .map_or(vec![], |m| m.roles.clone());
 
-    member.kick_with_reason(ctx, &reason).await?;
-
-    if has_any_role(&moderator_roles, &ctx.data().config.roles.kick_roles) {
-        let kick = models::kick::new(
+    if has_any_role(&moderator_roles, &ctx.data().config.roles.warn_roles) {
+        let warn = models::warn::new(
             i64::from(member.user.id),
             i64::from(ctx.author().id),
             reason.clone(),
         );
-        kick.insert(&ctx.data().pool).await?;
+        warn.insert(&ctx.data().pool).await?;
 
         ctx.send(
             CreateReply::default().embed(
                 CreateEmbed::new()
-                    .title("🦶 Kick")
+                    .title("☝️ Warn")
                     .field(
-                        format!("{} kicked!", member.user.name),
+                        format!("{} warned!", member.user.name),
                         format!("Reason: {reason}"),
                         false,
                     )
@@ -48,6 +45,21 @@ pub async fn kick(
 
         return Ok(());
     }
+
+    ctx.send(
+        CreateReply::default().embed(
+            CreateEmbed::new()
+                .title("🛑 ERROR")
+                .field(
+                    format!("Cannot warn user {}.", member.user.name),
+                    "Reason: No permisions",
+                    false,
+                )
+                .thumbnail(member.face())
+                .color(0xFF0000),
+        ),
+    )
+    .await?;
 
     Ok(())
 }

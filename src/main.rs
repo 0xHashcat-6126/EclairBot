@@ -1,8 +1,12 @@
 mod bot;
 mod config;
 mod services;
+<<<<<<< HEAD
 mod features;
 mod util;
+=======
+mod utils;
+>>>>>>> master
 
 use bot::client;
 use config::loader::load_config;

@@ -7,23 +7,30 @@ use std::error::Error;
 
 pub struct Data {
     pub pool: Pool<Sqlite>,
+    pub config: Config,
 }
 
 pub async fn run(config: Config, pool: Pool<Sqlite>) -> Result<(), Box<dyn Error>> {
+    let token = config.bot.token.clone();
+    let prefix = config.bot.prefix.clone();
+
     let commands = vec![
         commands::ban::ban(),
+        commands::exp::exp(),
+        commands::face::face(),
         commands::kick::kick(),
         commands::help::help(),
         commands::ping::ping(),
         commands::ruler::ruler(),
         commands::unban::unban(),
+        commands::warn::warn(),
     ];
 
     let framework = Framework::builder()
         .options(FrameworkOptions {
             commands,
             prefix_options: PrefixFrameworkOptions {
-                prefix: Some(config.bot.prefix),
+                prefix: Some(prefix),
                 ..Default::default()
             },
             event_handler: |ctx, event, _framework, data| {
@@ -50,12 +57,12 @@ pub async fn run(config: Config, pool: Pool<Sqlite>) -> Result<(), Box<dyn Error
         .setup(|ctx, _ready, framework| {
             Box::pin(async move {
                 builtins::register_globally(ctx, &framework.options().commands).await?;
-                Ok(Data { pool })
+                Ok(Data { pool, config })
             })
         })
         .build();
 
-    let client = serenity::Client::builder(config.bot.token, GatewayIntents::all())
+    let client = serenity::Client::builder(token, GatewayIntents::all())
         .framework(framework)
         .await;
 

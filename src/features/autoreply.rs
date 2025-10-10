@@ -5,7 +5,7 @@ use regex::Regex;
 use serenity::all::{CacheHttp, Message};
 use smallvec::SmallVec;
 
-use crate::util::ignore_case_cmp::IgnoreCaseCmp as _;
+use crate::utils::ignore_case_cmp::IgnoreCaseCmp as _;
 
 #[allow(dead_code)]
 pub enum AutoReplyRule {

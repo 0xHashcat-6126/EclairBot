@@ -2,10 +2,7 @@
 token = "<BOT_TOKEN>"
 prefix = "."
 database_name = "bot.db"
-<<<<<<< HEAD
-=======
 
 [roles]
 warn_roles = [<WARN_ROLES>]
 kick_roles = [<KICK_ROLES>]
->>>>>>> master

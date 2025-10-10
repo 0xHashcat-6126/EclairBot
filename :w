@@ -1,0 +1,13 @@
+pub type Xp = i64;
+pub type Level = i32;
+
+
+pub fn xp_to_level(xp: Xp, levelDivider: i32) -> Level {
+    return floor(
+        (1 + Math.sqrt(1 + 8 * xp / levelDivider)) / 2
+    );
+}
+
+pub fn level_to_xp(level: Level, levelDivider: i32) -> Xp {
+    return Math.floor((level * (level - 1) / 2) * levelDivider);
+}

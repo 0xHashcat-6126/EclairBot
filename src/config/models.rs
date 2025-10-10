@@ -17,4 +17,5 @@ pub struct Bot {
 #[derive(Deserialize)]
 pub struct Roles {
     pub warn_roles: Vec<RoleId>,
+    pub kick_roles: Vec<RoleId>,
 }

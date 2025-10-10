@@ -1,5 +1,5 @@
-use sqlx::{FromRow, SqlitePool};
-use crate::bot::Error;
+use crate::impl_modlog;
+use sqlx::FromRow;
 
 #[derive(FromRow)]
 pub struct WarnData {
@@ -20,19 +20,4 @@ pub fn new(member_id: i64, moderator_id: i64, reason: String) -> WarnData {
     }
 }
 
-impl WarnData {
-    pub async fn insert(&self, pool: &SqlitePool) -> Result<(), Error> {
-        sqlx::query(
-            "INSERT INTO warns (member_id, moderator_id, reason)
-            VALUES (?, ?, ?)
-            ON CONFLICT(id) DO NOTHING",
-        )
-            .bind(self.member_id)
-            .bind(self.moderator_id)
-            .bind(&self.reason)
-            .execute(pool)
-            .await?;
-
-        Ok(())
-    }
-}
+impl_modlog!(WarnData, "warns");

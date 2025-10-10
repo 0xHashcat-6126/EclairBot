@@ -1,9 +1,9 @@
 pub mod ban;
 pub mod exp;
+pub mod face;
 pub mod help;
 pub mod kick;
 pub mod ping;
 pub mod ruler;
 pub mod unban;
-pub mod face;
 pub mod warn;

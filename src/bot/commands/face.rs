@@ -1,7 +1,6 @@
-use poise::{command, CreateReply};
-use serenity::all::{CreateEmbed, Member};
 use crate::bot::{Context, Error};
-
+use poise::{CreateReply, command};
+use serenity::all::{CreateEmbed, Member};
 
 #[command(
     slash_command,
@@ -14,12 +13,7 @@ pub async fn face(
 ) -> Result<(), Error> {
     let face = member.map_or(ctx.author().face(), |m| m.face());
 
-    ctx.send(
-        CreateReply::default().embed(
-            CreateEmbed::new()
-                .image(face)
-        ),
-    )
+    ctx.send(CreateReply::default().embed(CreateEmbed::new().image(face)))
         .await?;
 
     Ok(())

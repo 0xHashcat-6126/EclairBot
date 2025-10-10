@@ -7,7 +7,7 @@ use serenity::all::{CreateEmbed, Member};
     slash_command,
     prefix_command,
     description_localized("en-US", "Check member exp"),
-    guild_only = true,
+    guild_only = true
 )]
 pub async fn exp(
     ctx: Context<'_>,
@@ -27,7 +27,8 @@ pub async fn exp(
     }
 
     let bar_length = 12;
-    let filled_length = ((remaining_exp as f64 / exp_needed as f64) * bar_length as f64).round() as usize;
+    let filled_length =
+        ((remaining_exp as f64 / exp_needed as f64) * bar_length as f64).round() as usize;
     let bar = format!(
         "{}{}",
         "🟩".repeat(filled_length),
@@ -38,7 +39,14 @@ pub async fn exp(
         CreateReply::default().embed(
             CreateEmbed::new()
                 .title("🥇 Experience:")
-                .field(&ctx.author().name, format!("Level: {level}\nExperience: {remaining_exp}\nNeeded: {}\n{bar}", exp_needed - remaining_exp), false)
+                .field(
+                    &ctx.author().name,
+                    format!(
+                        "Level: {level}\nExperience: {remaining_exp}\nNeeded: {}\n{bar}",
+                        exp_needed - remaining_exp
+                    ),
+                    false,
+                )
                 .thumbnail(&ctx.author().face())
                 .color(0x00FF00),
         ),

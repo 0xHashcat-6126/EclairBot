@@ -4,4 +4,5 @@ prefix = "."
 database_name = "bot.db"
 
 [roles]
-warn_roles = []
+warn_roles = [<WARN_ROLES>]
+kick_roles = [<KICK_ROLES>]

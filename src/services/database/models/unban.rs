@@ -1,3 +1,4 @@
+use crate::impl_modlog;
 use sqlx::FromRow;
 
 #[derive(FromRow)]
@@ -8,3 +9,5 @@ pub struct UnbanData {
     pub reason: String,
     pub timestamp: i64,
 }
+
+impl_modlog!(UnbanData, "unbans");

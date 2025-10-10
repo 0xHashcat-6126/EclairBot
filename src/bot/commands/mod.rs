@@ -7,3 +7,4 @@ pub mod ping;
 pub mod ruler;
 pub mod unban;
 pub mod warn;
+pub mod list;

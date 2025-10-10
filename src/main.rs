@@ -6,14 +6,16 @@ mod util;
 
 use bot::client;
 use config::loader::load_config;
+use dotenv::dotenv;
 use std::path::Path;
 
 use crate::services::database::db;
 
 #[tokio::main]
 async fn main() {
-    let config = load_config("Config.toml").unwrap();
+    dotenv().ok();
 
+    let config = load_config("Config.toml").unwrap();
     let path = Path::new(&config.bot.database_name);
 
     if !path.exists() {

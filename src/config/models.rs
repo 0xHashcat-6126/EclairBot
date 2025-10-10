@@ -7,6 +7,7 @@ pub struct Config {
 
 #[derive(Deserialize)]
 pub struct Bot {
+    #[serde(default)]
     pub token: String,
     pub prefix: String,
     pub database_name: String,

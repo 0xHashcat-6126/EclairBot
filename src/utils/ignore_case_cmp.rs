@@ -5,7 +5,7 @@ pub trait IgnoreCaseCmp {
     fn ignore_case_contains(&self, other: &str) -> bool;
 }
 
-impl IgnoreCaseCmp for &str {
+impl<T: AsRef<str>> IgnoreCaseCmp for T {
     #[inline(always)]
     fn ignore_case_eq(&self, b_string: &str) -> bool {
         if self.as_ref().len() != b_string.len() {
@@ -41,7 +41,7 @@ impl IgnoreCaseCmp for &str {
     }
 
     fn ignore_case_starts_with(&self, prefix: &str) -> bool {
-        let mut self_chars = self.chars();
+        let mut self_chars = self.as_ref().chars();
         let mut prefix_chars = prefix.chars();
 
         while let (Some(a), Some(b)) = (self_chars.next(), prefix_chars.next()) {
@@ -66,11 +66,11 @@ impl IgnoreCaseCmp for &str {
 
     fn ignore_case_ends_with(&self, suffix: &str) -> bool {
         // I think that for now there is no better way
-        self.to_lowercase().ends_with(&suffix.to_lowercase())
+        self.as_ref().to_lowercase().ends_with(&suffix.to_lowercase())
     }
 
     fn ignore_case_contains(&self, other: &str) -> bool {
         // I think that for now there is no better way
-        self.to_lowercase().contains(&other.to_lowercase())
+        self.as_ref().to_lowercase().contains(&other.to_lowercase())
     }
 }

@@ -40,33 +40,36 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
         true
     }
 
+    #[inline(always)]
     fn ignore_case_starts_with(&self, prefix: &str) -> bool {
-        let mut self_chars = self.as_ref().chars();
-        let mut prefix_chars = prefix.chars();
+        if self.as_ref().len() < prefix.len() { return false; }
 
-        while let (Some(a), Some(b)) = (self_chars.next(), prefix_chars.next()) {
-            if a.is_ascii() && b.is_ascii() {
-                if a.to_ascii_lowercase() != b.to_ascii_lowercase() {
-                    return false;
-                }
-            } else {
-                if a != b {
-                    return false;
-                }
+        let string_bytes = self.as_ref().as_bytes();
+        let prefix_bytes = prefix.as_bytes();
+
+        for i in 0..prefix_bytes.len() {
+            if string_bytes[i] | 0x20 != prefix_bytes[i] {
+                return false;
             }
         }
-        
-        match (self_chars.next(), prefix_chars.next()) {
-            (None, None) => true,
-            (Some(_), None) => true,
-            (None, Some(_)) => false,
-            (Some(_), Some(_)) => unreachable!(),
-        }
+
+        true
     }
 
+    #[inline(always)]
     fn ignore_case_ends_with(&self, suffix: &str) -> bool {
-        // I think that for now there is no better way
-        self.as_ref().to_lowercase().ends_with(&suffix.to_lowercase())
+        if self.as_ref().len() < suffix.len() { return false; }
+
+        let string_bytes = self.as_ref().as_bytes();
+        let suffix_bytes = suffix.as_bytes();
+
+        for i in 0..suffix_bytes.len() {
+            if string_bytes[i + string_bytes.len() - suffix_bytes.len()]  | 0x20 != suffix_bytes[i] {
+                return false;
+            }
+        }
+
+        true
     }
 
     fn ignore_case_contains(&self, other: &str) -> bool {

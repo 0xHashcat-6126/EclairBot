@@ -68,8 +68,7 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
         let suffix_bytes = suffix.as_bytes();
 
         for i in 0..suffix_bytes.len() {
-            if (string_bytes[i + string_bytes.len() - suffix_bytes.len()] | 0x20) != suffix_bytes[i]
-            {
+            if string_bytes[i + string_bytes.len() - suffix_bytes.len()] | 0x20 != suffix_bytes[i] {
                 return false;
             }
         }
@@ -77,30 +76,8 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
         true
     }
 
-    #[inline(always)]
-    fn ignore_case_contains(&self, string: &str) -> bool {
-        let a_bytes = self.as_ref().as_bytes();
-        let b_bytes = string.as_bytes();
-
-        let a_bytes_len = a_bytes.len();
-        let b_bytes_len = b_bytes.len();
-
-        if a_bytes_len < b_bytes_len {
-            return false;
-        }
-
-        for i in 0..=a_bytes_len - b_bytes_len {
-            for j in 0..b_bytes_len {
-                if (a_bytes[i + j] | 0x20) != b_bytes[j] {
-                    break;
-                }
-
-                if j == b_bytes_len - 1 {
-                    return true;
-                }
-            }
-        }
-
-        false
+    fn ignore_case_contains(&self, other: &str) -> bool {
+        // I think that for now there is no better way
+        self.as_ref().to_lowercase().contains(&other.to_lowercase())
     }
 }

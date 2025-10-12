@@ -42,7 +42,9 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
 
     #[inline(always)]
     fn ignore_case_starts_with(&self, prefix: &str) -> bool {
-        if self.as_ref().len() < prefix.len() { return false; }
+        if self.as_ref().len() < prefix.len() {
+            return false;
+        }
 
         let string_bytes = self.as_ref().as_bytes();
         let prefix_bytes = prefix.as_bytes();
@@ -58,13 +60,15 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
 
     #[inline(always)]
     fn ignore_case_ends_with(&self, suffix: &str) -> bool {
-        if self.as_ref().len() < suffix.len() { return false; }
+        if self.as_ref().len() < suffix.len() {
+            return false;
+        }
 
         let string_bytes = self.as_ref().as_bytes();
         let suffix_bytes = suffix.as_bytes();
 
         for i in 0..suffix_bytes.len() {
-            if string_bytes[i + string_bytes.len() - suffix_bytes.len()]  | 0x20 != suffix_bytes[i] {
+            if string_bytes[i + string_bytes.len() - suffix_bytes.len()] | 0x20 != suffix_bytes[i] {
                 return false;
             }
         }

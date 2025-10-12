@@ -1,6 +1,6 @@
-use std::ops::{BitOr, BitAnd};
+use std::ops::{BitAnd, BitOr};
 
-use rand::{Rng};
+use rand::Rng;
 use regex::Regex;
 use serenity::all::{CacheHttp, Message};
 use smallvec::SmallVec;
@@ -72,11 +72,15 @@ fn match_autoreply_rule(content: &str, rule: &AutoReplyRule) -> bool {
         AutoReplyRule::IgnoreCaseEndsWith(pat) => content.ignore_case_ends_with(pat),
         AutoReplyRule::IgnoreCaseContains(pat) => content.ignore_case_contains(pat),
         AutoReplyRule::IgnoreCaseEqualTo(pat) => content.ignore_case_eq(pat),
-    
+
         AutoReplyRule::MatchesRegex(_reg) => false, // TODO
-        
-        AutoReplyRule::Or(a, b) => match_autoreply_rule(content, a.as_ref()) || match_autoreply_rule(content, b.as_ref()),
-        AutoReplyRule::And(a, b) => match_autoreply_rule(content, a.as_ref()) && match_autoreply_rule(content, b.as_ref()),
+
+        AutoReplyRule::Or(a, b) => {
+            match_autoreply_rule(content, a.as_ref()) || match_autoreply_rule(content, b.as_ref())
+        }
+        AutoReplyRule::And(a, b) => {
+            match_autoreply_rule(content, a.as_ref()) && match_autoreply_rule(content, b.as_ref())
+        }
     }
 }
 
@@ -85,8 +89,8 @@ fn get_reply(target: &AutoReplyTarget) -> &'static str {
         AutoReplyTarget::ReplyWith(str) => str,
         AutoReplyTarget::ReplyWithRandom(variants) => {
             let mut rng = rand::rng();
-            variants[rng.random_range(0..variants.len()-1)]
-        },
+            variants[rng.random_range(0..variants.len() - 1)]
+        }
     }
 }
 
@@ -98,12 +102,19 @@ pub struct AutoReplyDef {
 #[macro_export]
 macro_rules! autoreply {
     ($rule:expr, $target:expr) => {
-        crate::features::autoreply::AutoReplyDef { rule: From::from($rule), target: From::from($target) }
-    }
+        crate::features::autoreply::AutoReplyDef {
+            rule: From::from($rule),
+            target: From::from($target),
+        }
+    };
 }
 
 impl AutoReplyDef {
-    pub async fn handle(&self, cache_http: impl CacheHttp, msg: &Message) -> Option<serenity::Result<Message>> {
+    pub async fn handle(
+        &self,
+        cache_http: impl CacheHttp,
+        msg: &Message,
+    ) -> Option<serenity::Result<Message>> {
         if match_autoreply_rule(&msg.content, &self.rule) {
             let reply = get_reply(&self.target);
             Some(msg.reply(cache_http, reply).await)
@@ -112,4 +123,3 @@ impl AutoReplyDef {
         }
     }
 }
-

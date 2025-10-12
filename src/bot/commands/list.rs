@@ -1,7 +1,7 @@
 use crate::bot::{Context, Error};
 use crate::services::database::models::warn::WarnData;
 use crate::utils::role::has_any_role;
-use poise::{CreateReply, command, };
+use poise::{CreateReply, command};
 use serenity::all::{CreateEmbed, Member};
 
 #[derive(Debug, poise::ChoiceParameter)]
@@ -37,7 +37,10 @@ pub async fn list(
                 CreateEmbed::new()
                     .title("🛑 ERROR")
                     .field(
-                        format!("Brak uprawnień do przeglądania danych użytkownika {}.", member.user.name),
+                        format!(
+                            "Brak uprawnień do przeglądania danych użytkownika {}.",
+                            member.user.name
+                        ),
                         "Musisz mieć odpowiednią rolę moderacyjną.",
                         false,
                     )
@@ -62,7 +65,10 @@ pub async fn list(
                     .embed(
                         CreateEmbed::new()
                             .title("✅ Brak ostrzeżeń")
-                            .description(format!("Użytkownik {} nie ma żadnych ostrzeżeń.", member.user.name))
+                            .description(format!(
+                                "Użytkownik {} nie ma żadnych ostrzeżeń.",
+                                member.user.name
+                            ))
                             .thumbnail(member.face())
                             .color(0x00FF00),
                     ),
@@ -81,9 +87,7 @@ pub async fn list(
                     format!("ID: {}", warn.id),
                     format!(
                         "Moderator: <@{}>\nPowód: {}\nTimestamp: {}",
-                        warn.moderator_id,
-                        warn.reason,
-                        warn.timestamp,
+                        warn.moderator_id, warn.reason, warn.timestamp,
                     ),
                     false,
                 );

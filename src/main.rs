@@ -1,7 +1,7 @@
 mod bot;
 mod config;
-mod services;
 mod features;
+mod services;
 mod utils;
 
 use bot::client;

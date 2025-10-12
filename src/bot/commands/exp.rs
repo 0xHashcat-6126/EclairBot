@@ -10,7 +10,7 @@ use crate::features::level;
     prefix_command,
     aliases("lvl"),
     description_localized("en-US", "Check member exp"),
-    guild_only = true,
+    guild_only = true
 )]
 pub async fn exp(
     ctx: Context<'_>,

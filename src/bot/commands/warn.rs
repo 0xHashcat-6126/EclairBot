@@ -2,7 +2,7 @@ use crate::bot::{Context, Error};
 use crate::services::database::models;
 use crate::services::database::models::member::MemberData;
 use crate::utils::role::has_any_role;
-use poise::{command, CreateReply};
+use poise::{CreateReply, command};
 use serenity::all::{CreateEmbed, Member};
 
 #[command(

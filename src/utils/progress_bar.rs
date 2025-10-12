@@ -47,7 +47,10 @@ impl ProgressBar {
         let filled_length = f64::floor(self.char_count as f64 * scaled_progress) as usize;
         let empty_length = self.char_count - filled_length;
 
-        format!("{}{}", self.fill.repeat(filled_length), self.background.repeat(empty_length))
+        format!(
+            "{}{}",
+            self.fill.repeat(filled_length),
+            self.background.repeat(empty_length)
+        )
     }
 }
-

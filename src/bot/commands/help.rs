@@ -44,6 +44,7 @@ pub async fn help(
             .field("ping", "Checks if the bot is alive.", false)
             .field("ruler", "Measures the length of your penis.", false)
             .field("unban", "Unbans a user from the server.", false)
+            .field("list", "List data like: warns, bans, mutes.", false)
     };
 
     ctx.send(CreateReply::default().embed(embed)).await?;

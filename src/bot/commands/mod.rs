@@ -6,5 +6,6 @@ pub mod kick;
 pub mod list;
 pub mod ping;
 pub mod ruler;
+pub mod stat;
 pub mod unban;
 pub mod warn;

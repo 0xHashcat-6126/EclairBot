@@ -45,6 +45,7 @@ pub async fn help(
             .field("ruler", "Measures the length of your penis.", false)
             .field("unban", "Unbans a user from the server.", false)
             .field("list", "List data like: warns, bans, mutes.", false)
+            .field("stat", "make stat channel", false)
     };
 
     ctx.send(CreateReply::default().embed(embed)).await?;

@@ -1,5 +1,6 @@
+
 pub trait IgnoreCaseCmp {
-    fn de_pl(string: &str) -> String;
+    fn de_pl(&self) -> String;
     fn ignore_case_eq(&self, other: &str) -> bool;
     fn ignore_case_starts_with(&self, prefix: &str) -> bool;
     fn ignore_case_ends_with(&self, suffix: &str) -> bool;
@@ -8,9 +9,9 @@ pub trait IgnoreCaseCmp {
 
 impl<T: AsRef<str>> IgnoreCaseCmp for T {
     #[inline(always)]
-    fn de_pl(s: &str) -> String {
-        let mut out = String::with_capacity(s.len());
-        let bytes = s.as_bytes();
+    fn de_pl(&self) -> String {
+        let mut out = String::with_capacity(self.as_ref().len());
+        let bytes = self.as_ref().as_bytes();
         let mut i = 0;
 
         while i < bytes.len() {
@@ -133,8 +134,30 @@ impl<T: AsRef<str>> IgnoreCaseCmp for T {
         true
     }
 
-    fn ignore_case_contains(&self, other: &str) -> bool {
-        // I think that for now there is no better way
-        self.as_ref().to_lowercase().contains(&other.to_lowercase())
+    #[inline(always)]
+    fn ignore_case_contains(&self, string: &str) -> bool {
+        let a_bytes = self.as_ref().as_bytes();
+        let b_bytes = string.as_bytes();
+
+        let a_bytes_len = a_bytes.len();
+        let b_bytes_len = b_bytes.len();
+
+        if a_bytes_len < b_bytes_len {
+            return false;
+        }
+
+        for i in 0..=a_bytes_len - b_bytes_len {
+            for j in 0..b_bytes_len {
+                if (a_bytes[i + j] | 0x20) != b_bytes[j] {
+                    break;
+                }
+
+                if j == b_bytes_len - 1 {
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 }

@@ -1,14 +1,21 @@
-use std::{collections::HashMap, sync::Arc, time::Duration};
-use poise::{command, CreateReply};
+use poise::{CreateReply, command};
 use serenity::all::{
-    ChannelId, ChannelType, CreateEmbed, EditChannel, GuildId,
-    PermissionOverwrite, PermissionOverwriteType, Permissions, RoleId,
+    ChannelId,
+    ChannelType,
+    CreateEmbed,
+    EditChannel,
+    GuildId,
+    PermissionOverwrite,
+    PermissionOverwriteType,
+    Permissions,
+    RoleId,
     // Dodajemy UserPagination, aby jasno określić typ dla 'None' w bans()
     UserPagination,
 };
-use tokio::sync::RwLock;
-use serenity::prelude::TypeMapKey;
 use serenity::prelude::Context as SerenityContext;
+use serenity::prelude::TypeMapKey;
+use std::{collections::HashMap, sync::Arc, time::Duration};
+use tokio::sync::RwLock;
 
 use crate::bot::{Context, Error};
 
@@ -74,7 +81,12 @@ pub async fn stat(
         return Ok(());
     };
 
-    let channel = match guild_id.channels(&ctx.http()).await?.get(&channel_id).cloned() {
+    let channel = match guild_id
+        .channels(&ctx.http())
+        .await?
+        .get(&channel_id)
+        .cloned()
+    {
         Some(c) => c,
         None => {
             ctx.send(
@@ -90,7 +102,14 @@ pub async fn stat(
     let count = if stat_type == StatType::Bans {
         // POPRAWKA BŁĘDU: Dodanie argumentów (UserPagination, limit)
         // Linia oryginalnie zgłaszająca błąd: 89
-        match guild_id.bans(&ctx.serenity_context(), None as Option<UserPagination>, None).await {
+        match guild_id
+            .bans(
+                &ctx.serenity_context(),
+                None as Option<UserPagination>,
+                None,
+            )
+            .await
+        {
             Ok(bans) => bans.len(),
             Err(_) => {
                 ctx.send(
@@ -126,12 +145,19 @@ pub async fn stat(
         } else {
             drop(data_read);
             let s = Arc::new(RwLock::new(HashMap::new()));
-            ctx.serenity_context().data.write().await.insert::<StatsKey>(s.clone());
+            ctx.serenity_context()
+                .data
+                .write()
+                .await
+                .insert::<StatsKey>(s.clone());
             s
         }
     };
 
-    stats.write().await.insert((guild_id, channel.id), stat_type);
+    stats
+        .write()
+        .await
+        .insert((guild_id, channel.id), stat_type);
 
     ctx.send(
         CreateReply {
@@ -165,21 +191,24 @@ pub async fn get_stat_value_serenity(
                 Ok(members) => members.iter().filter(|m| !m.user.bot).count(),
                 Err(_) => 0,
             }
-        },
+        }
         StatType::Bots => {
             // Metoda members() również wymaga argumentów paginacji i limitu
             match guild_id.members(serenity_ctx, None, None).await {
                 Ok(members) => members.iter().filter(|m| m.user.bot).count(),
                 Err(_) => 0,
             }
-        },
+        }
         StatType::Bans => {
             // POPRAWKA BŁĘDU: Dodanie argumentów (UserPagination, limit)
-            match guild_id.bans(serenity_ctx, None as Option<UserPagination>, None).await {
+            match guild_id
+                .bans(serenity_ctx, None as Option<UserPagination>, None)
+                .await
+            {
                 Ok(bans) => bans.len(),
                 Err(_) => 0,
             }
-        },
+        }
     }
 }
 

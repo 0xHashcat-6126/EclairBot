@@ -23,7 +23,7 @@ pub async fn kick(
 
     member.kick_with_reason(ctx, &reason).await?;
 
-    if has_any_role(&moderator_roles, &ctx.data().config.roles.kick_roles) {
+    if has_any_role(&moderator_roles, &ctx.data().config.roles.kick_perm_roles) {
         let kick = models::kick::new(
             i64::from(member.user.id),
             i64::from(ctx.author().id),

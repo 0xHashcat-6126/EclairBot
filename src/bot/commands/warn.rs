@@ -21,7 +21,7 @@ pub async fn warn(
         .await
         .map_or(vec![], |m| m.roles.clone());
 
-    if has_any_role(&moderator_roles, &ctx.data().config.roles.warn_roles) {
+    if has_any_role(&moderator_roles, &ctx.data().config.roles.warn_perm_roles) {
         let member_id = i64::from(member.user.id);
         let moderator_id = i64::from(ctx.author().id);
 

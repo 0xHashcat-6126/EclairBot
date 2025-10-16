@@ -27,7 +27,7 @@ pub async fn list(
         .await
         .map_or(vec![], |m| m.roles.clone());
 
-    if !has_any_role(&moderator_roles, &ctx.data().config.roles.warn_roles) {
+    if !has_any_role(&moderator_roles, &ctx.data().config.roles.warn_perm_roles) {
         ctx.send(
             CreateReply {
                 ephemeral: Some(is_slash),

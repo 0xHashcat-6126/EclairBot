@@ -1,4 +1,3 @@
-
 pub trait IgnoreCaseCmp {
     fn de_pl(&self) -> String;
     fn ignore_case_eq(&self, other: &str) -> bool;

@@ -1,8 +1,12 @@
 [bot]
-token = "<BOT_TOKEN>"
 prefix = "."
 database_name = "bot.db"
 
 [roles]
-warn_roles = [<WARN_ROLES>]
-kick_roles = [<KICK_ROLES>]
+warn_perm_roles = [1415710976644349972]
+kick_perm_roles = [1415710976644349972]
+mute_perm_roles = [1415710976644349972]
+jail_perm_role = [1415710976644349972]
+
+mute_role = 1415710976644349972
+jail_role = 1415710976644349972
